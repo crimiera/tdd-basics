@@ -1,25 +1,47 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {Button} from 'react-bootstrap';
+import Gift from './components/Gift';
 import './App.css';
 
 class App extends Component {
+
+  constructor(){
+    super();
+    
+    this.state = {
+      gifts:[]
+    }
+
+    this.addGift = this.addGift.bind(this);
+  }
+  addGift(e) {
+
+    this.setState({gifts:[...this.state.gifts,{"id":1}]});
+  }
+
+  removeGift(id) {
+    const ids = this.state.gifts.filter(gift => gift.id !== id)
+    this.setState({gifts:[...ids]});
+  }
+
   render() {
+    
+    const {gifts} = this.state;
+
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
         </header>
+        <h2>gift</h2>
+        
+        <div className='gift-list'>
+          {
+            gifts.map((gift,i)=>{
+              return (<Gift key={i} {...gift}/>)
+            })
+          }
+        </div>
+        <Button className='btn-add' onClick={this.addGift}>Add Gift</Button>
       </div>
     );
   }
